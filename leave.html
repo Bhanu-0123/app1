@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./leave.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Open Sans:wght@600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto Sans:wght@700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Public Sans:wght@100;200;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+    />
+  </head>
+  <body>
+    <div class="leave">
+      <div class="ioncaret-back-sharp-parent3">
+        <button class="ioncaret-back-sharp7" id="ioncaretBackSharp">
+          <img class="vector-icon9" alt="" src="./public/vector@2x.png" />
+        </button>
+        <b class="leave-management">Leave Management</b>
+      </div>
+      <div class="leave-child" id="rectangle"></div>
+      <div class="leave-item"></div>
+      <div class="leave-inner"></div>
+      <div class="leave-inner"></div>
+      <b class="apply-leave">Apply Leave</b>
+      <b class="apply-optional-holiday">Apply Optional Holiday</b>
+      <b class="leave-report" id="leaveReportText">Leave Report</b>
+      <img class="report-card-icon" alt="" src="./public/report-card@2x.png" />
+
+      <img
+        class="add-properties-icon"
+        alt=""
+        src="./public/add-properties@2x.png"
+      />
+
+      <img
+        class="system-report-icon"
+        alt=""
+        src="./public/system-report@2x.png"
+      />
+    </div>
+
+    <div id="sideBarContainer" class="popup-overlay" style="display: none">
+      <div class="side-bar">
+        <button class="mdiabout-parent" id="popupframeButton">
+          <img class="mdiabout-icon" alt="" src="./public/mdiabout@2x.png" />
+
+          <div class="about1">About</div>
+        </button>
+        <button class="mdiabout-group" id="popupframeButton1">
+          <img class="mdiabout-icon" alt="" src="./public/mdiabout@2x.png" />
+
+          <div class="about1">Report</div>
+        </button>
+        <button class="rectangle-parent" id="popupframeButton2">
+          <div class="frame-child"></div>
+          <div class="log-out-parent">
+            <b class="log-out">Log out</b>
+            <img
+              class="mdiabout-icon"
+              alt=""
+              src="./public/linemdlogout@2x.png"
+            />
+          </div>
+        </button>
+        <button class="mdipassword-parent" id="popupgroupButton">
+          <img class="mdiabout-icon" alt="" src="./public/mdipassword@2x.png" />
+
+          <div class="change-password2">Change Password</div>
+        </button>
+        <img
+          class="carbonclose-filled-icon"
+          alt=""
+          src="./public/carbonclosefilled@2x.png"
+        />
+      </div>
+    </div>
+
+    <script>
+      var popupframeButton = document.getElementById("popupframeButton");
+      if (popupframeButton) {
+        popupframeButton.addEventListener("click", function (e) {
+          window.location.href = "./about.html";
+        });
+      }
+      
+      var popupframeButton1 = document.getElementById("popupframeButton1");
+      if (popupframeButton1) {
+        popupframeButton1.addEventListener("click", function (e) {
+          window.location.href = "./report.html";
+        });
+      }
+      
+      var popupframeButton2 = document.getElementById("popupframeButton2");
+      if (popupframeButton2) {
+        popupframeButton2.addEventListener("click", function (e) {
+          window.location.href = "./landig-page.html";
+        });
+      }
+      
+      var popupgroupButton = document.getElementById("popupgroupButton");
+      if (popupgroupButton) {
+        popupgroupButton.addEventListener("click", function (e) {
+          window.location.href = "./change-password.html";
+        });
+      }
+      
+      var ioncaretBackSharp = document.getElementById("ioncaretBackSharp");
+      if (ioncaretBackSharp) {
+        ioncaretBackSharp.addEventListener("click", function (e) {
+          window.location.href = "./homr.html";
+        });
+      }
+      
+      var rectangle = document.getElementById("rectangle");
+      if (rectangle) {
+        rectangle.addEventListener("click", function () {
+          var popup = document.getElementById("sideBarContainer");
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.setAttribute("closable", "");
+      
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+        });
+      }
+      
+      var leaveReportText = document.getElementById("leaveReportText");
+      if (leaveReportText) {
+        leaveReportText.addEventListener("click", function () {
+          var popup = document.getElementById("sideBarContainer");
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.setAttribute("closable", "");
+      
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+        });
+      }
+      </script>
+  </body>
+</html>

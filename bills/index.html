@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFsAjT6HOrnjKOR5FsF4XDyDPEPCVJABE",
+            authDomain: "leave-1ca65.firebaseapp.com",
+            databaseURL: "https://leave-1ca65-default-rtdb.firebaseio.com",
+            projectId: "leave-1ca65",
+            storageBucket: "leave-1ca65.appspot.com",
+            messagingSenderId: "643820038980",
+            appId: "1:643820038980:web:c86978443b61948cbf4511"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+<body>
+    <form>
+        <input type="file" id="image" accept="image/*" />
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const image = document.getElementById('image').files[0];
+            const storageRef = firebase.storage().ref();
+            const imageRef = storageRef.child('images/' + image.name);
+
+            imageRef.put(image).then((snapshot) => {
+                console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+                console.log('File URL:', snapshot.ref.getDownloadURL());
+            });
+        });
+    </script>
+</body>
+</html>

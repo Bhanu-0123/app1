@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XOXO Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .game {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+        }
+        .box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #000;
+            transition: background-color 0.3s;
+        }
+        .box:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="game"></div>
+    <script>
+        const game = document.querySelector('.game');
+        let player = 'X';
+        let gameOver = false;
+
+        function checkGameOver() {
+            let rowCount = 0;
+            let colCount = 0;
+            let diagCount = 0;
+
+            for (let i = 0; i < 3; i++) {
+                rowCount = 0;
+                colCount = 0;
+                for (let j = 0; j < 3; j++) {
+                    const box = game.querySelector(`[data-id="${i}-${j}"]`);
+                    if (box.textContent === player) {
+                        rowCount++;
+                        colCount++;
+                        if (i === j) {
+                            diagCount++;
+                        }
+                    }
+                }
+                if (rowCount === 3 || colCount === 3 || diagCount === 3) {
+                    gameOver = true;
+                    alert(`${player} wins!`);
+                    return;
+                }
+            }
+
+            if (game.querySelectorAll('.box').length === 9) {
+                gameOver = true;
+                alert('It\'s a tie!');
+            }
+        }
+
+        function createBox(x, y) {
+            const box = document.createElement('div');
+            box.classList.add('box');
+            box.dataset.id = `${x}-${y}`;
+            box.addEventListener('click', () => {
+                if (!gameOver && box.textContent === '') {
+                    box.textContent = player;
+                    player = player === 'X' ? 'O' : 'X';
+                    checkGameOver();
+                }
+            });
+            game.appendChild(box);
+        }
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                createBox(i, j);
+            }
+        }
+    </script>
+</body>
+</html>

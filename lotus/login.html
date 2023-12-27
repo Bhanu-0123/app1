@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 300px;
+            padding: 16px;
+            background-color: rgb(0, 0, 0);
+            margin: 0 auto;
+            margin-top: 100px;
+            border: 1px solid rgb(255, 81, 0);
+            border-radius: 4px;
+        }
+
+        input[type=text], input[type=password], input[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #ff5e00;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" id="uname" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" id="pwd" placeholder="Enter Password" name="psw" required>
+
+        <label for="otp"><b>Verification Code</b></label>
+        <input type="number" id="otp" placeholder="Enter Verification Code" name="otp" required>
+
+        <button type="button" id="login" name="login">Login</button>
+        <br><br>
+        <button onclick="window.location.href='index.html'" id="goback">Go Back</button><br><br>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/speakeasy@6.0.2/dist/speakeasy.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
+            authDomain: "appauth-f9250.firebaseapp.com",
+            projectId: "appauth-f9250",
+            storageBucket: "appauth-f9250.appspot.com",
+            messagingSenderId: "652727774916",
+            appId: "1:652727774916:web:021f6820fd8e0c1c39e391"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        login.addEventListener('click', () => {
+            var email = document.getElementById('uname').value;
+            var password = document.getElementById('pwd').value;
+            var otp = document.getElementById('otp').value;
+
+            // Verify TOTP
+            if (validateTOTP(otp)) {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in
+                        const user = userCredential.user;
+                        // Redirect to the home.html page
+                        window.location.href = 'home.html';
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        alert('Login failed. ' + errorMessage);
+                    });
+            } else {
+                alert('Invalid verification code.');
+            }
+        });
+
+        function validateTOTP(otp) {
+            const secret = 'your-secret-key'; // Replace with your secret key
+            return speakeasy.totp.verify({
+                secret: secret,
+                encoding: 'base32',
+                token: otp,
+                window: 2 // 2 represents the tolerance for time sync issues (in 30-second intervals)
+            });
+        }
+    </script>
+</body>
+</html>

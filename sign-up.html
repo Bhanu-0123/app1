@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./sign-up.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
+    />
+    <!-- ... (other stylesheet links) ... -->
+  </head>
+
+  <body>
+    <div class="sign-up">
+      <div class="frame8">
+        <b class="create-your-account">Sign up</b>
+      </div>
+      <div class="frame9">
+        <b class="create-your-account">Create your account</b>
+      </div>
+      <input
+        class="sign-up-child"
+        name="Enter name"
+        placeholder="Enter Name"
+        type="text"
+      />
+
+      <input class="sign-up-item" placeholder="Phone number" type="text" />
+
+      <input class="sign-up-inner" placeholder="Email Address" type="text" />
+
+      <input class="frame-input" placeholder="Password" type="password" />
+
+      <input
+        class="sign-up-child1"
+        placeholder="Confirm Password"
+        type="text"
+      />
+
+      <button class="login" id="signupButton">
+        <b class="sign-up2">Sign up</b>
+      </button>
+      <div class="frame10">
+        <button class="back" id="back">
+          <div class="back-child"></div>
+          <b class="back1">back</b>
+        </button>
+      </div>
+      <div class="frame11">
+        <b class="create-your-account">Already have an account? </b>
+        <button class="login1" id="login1">Login</button>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+
+    <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
+          authDomain: "appauth-f9250.firebaseapp.com",
+          databaseURL: "https://appauth-f9250-default-rtdb.firebaseio.com",
+          projectId: "appauth-f9250",
+          storageBucket: "appauth-f9250.appspot.com",
+          messagingSenderId: "652727774916",
+          appId: "1:652727774916:web:021f6820fd8e0c1c39e391"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      var database = firebase.database();
+
+      var signupButton = document.getElementById("signupButton");
+      if (signupButton) {
+        signupButton.addEventListener("click", function (e) {
+          var name = document.querySelector('input[name="Enter name"]').value;
+          var phoneNumber = document.querySelector('input[placeholder="Phone number"]').value;
+          var email = document.querySelector('input[placeholder="Email Address"]').value;
+
+          var userRef = database.ref("users"); // Create a "users" reference
+          var newUserRef = userRef.push(); // Generate a unique key for the new user
+
+          // Save user data to the database
+          newUserRef.set({
+            name: name,
+            phoneNumber: phoneNumber,
+            email: email
+          });
+
+          // Redirect to the home page
+          window.location.href = "./homr.html";
+        });
+      }
+
+      var back = document.getElementById("back");
+      if (back) {
+        back.addEventListener("click", function (e) {
+          window.location.href = "./index.html";
+        });
+      }
+
+      var login1 = document.getElementById("login1");
+      if (login1) {
+        login1.addEventListener("click", function (e) {
+          window.location.href = "./login.html";
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Viewer and Downloader</title>
+</head>
+<body>
+
+  <h1>PDF Viewer and Downloader</h1>
+
+  <iframe id="pdfViewer" width="100%" height="500px" frameborder="0"></iframe>
+
+  <button id="downloadButton">Download PDF</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.11.338/build/pdf.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js"></script>
+  <script>
+    // Replace with your Firebase configuration
+
+
+<!-- Include Firebase SDK -->
+
+
+
+  // Firebase configuration
+  var firebaseConfig = {
+    apiKey: "your-api-key",
+    authDomain: "your-auth-domain",
+    databaseURL: "your-database-url",
+    projectId: "your-project-id",
+    storageBucket: "your-storage-bucket",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Assuming you have a 'users' node in your database
+  var usersRef = firebase.database().ref('users');
+
+  function login(username, password) {
+    // Query the database based on the username
+    usersRef.orderByChild('username').equalTo(username).once('value')
+      .then(function(snapshot) {
+        // Check if user exists and password is correct
+        snapshot.forEach(function(childSnapshot) {
+          var userData = childSnapshot.val();
+          if (userData.password === password) {
+            var user_profile = {
+              id: childSnapshot.key,
+              username: userData.username,
+              name: userData.name,
+              email: userData.email
+              // Add more fields as needed
+            };
+            // Call a function to handle the user profile, e.g., buildUserProfile(user_profile);
+            console.log("Welcome, " + user_profile.name + "!");
+          } else {
+            console.log("Invalid credentials. Please try again.");
+          }
+        });
+      })
+      .catch(function(error) {
+        console.error("Error retrieving data: " + error);
+      });
+  }
+
+  // Example usage
+  login('example_user', 'example_password');
+</script>
+
+
+</body>
+</html>

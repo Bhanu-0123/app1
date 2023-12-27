@@ -1,0 +1,76 @@
+.already-have-an1,
+.login2 {
+  position: absolute;
+  top: 625px;
+  left: 82px;
+}
+.login2 {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  left: 233px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  font-family: var(--font-arial);
+  color: var(--color-darkorange);
+  text-align: left;
+  display: inline-block;
+}
+.get-started-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-6xl);
+  border: 1px solid var(--color-darkorange);
+  box-sizing: border-box;
+  width: 290px;
+  height: 45px;
+}
+.get-started1 {
+  position: absolute;
+  top: 11px;
+  left: 97px;
+  font-size: var(--font-size-mid);
+  font-family: var(--font-open-sans);
+  color: var(--color-darkorange);
+  text-align: left;
+}
+.get-started {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 567px;
+  left: 35px;
+  width: 290px;
+  height: 45px;
+}
+.welcome {
+  position: absolute;
+  top: 518px;
+  left: 113px;
+  font-size: 30px;
+  font-family: var(--font-quicksand);
+  color: var(--color-black);
+}
+.demoorange-1-icon {
+  position: absolute;
+  top: 171px;
+  left: 23px;
+  width: 313px;
+  height: 368px;
+  object-fit: cover;
+}
+.landig-page {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+  font-family: var(--font-arial);
+}
