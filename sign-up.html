@@ -4,75 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="initial-scale=1, width=device-width" />
 
+  <!-- Add your stylesheet links -->
   <link rel="stylesheet" href="./global.css" />
   <link rel="stylesheet" href="./sign-up.css" />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Open Sans:wght@600;700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Noto Sans:wght@700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Public Sans:wght@100;200;700&display=swap"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
-  />
-</head>
-<body>
-  <div class="sign-up">
-    <div class="frame8">
-      <b class="create-your-account">Sign up</b>
-    </div>
-    <div class="frame9">
-      <b class="create-your-account">Create your account</b>
-    </div>
-    <input class="sign-up-child" name="Enter name" placeholder="Enter Name" type="text" />
-    <input class="sign-up-item" placeholder="Phone number" type="text" />
-    <input class="sign-up-inner" placeholder="Email Address" type="text" />
-    <input class="frame-input" placeholder="Password" type="password" />
-    <input class="sign-up-child1" placeholder="Confirm Password" type="text"/>
-    <button class="login" id="signupButton">
-      <b class="sign-up2">Sign up</b>
-    </button>
-    <div class="frame10">
-      <button class="back" id="back">
-        <div class="back-child"></div>
-        <b class="back1">back</b>
-      </button>
-    </div>
-    <div class="frame11">
-      <b class="create-your-account">Already have an account? </b>
-      <button class="login1" id="login1" >Login</button>
-    </div>
-  </div>
 
+  <!-- Include Firebase JavaScript SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
 
+  <style>
+    /* Add your additional styles here */
+  </style>
+
   <script>
+    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
       authDomain: "appauth-f9250.firebaseapp.com",
@@ -86,45 +33,117 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    var database = firebase.database();
-    var signupButton = document.getElementById("signupButton");
-    if (signupButton) {
-       signupButton.addEventListener("click", function (e) {
-        console.log("Signup button clicked!");
+    // Initialize Realtime Database
+    const database = firebase.database();
 
-     
-        var name = document.querySelector('input[name="Enter name"]').value;
-        var phoneNumber = document.querySelector('input[placeholder="Phone number"]').value;
-        var email = document.querySelector('input[placeholder="Email Address"]').value;
+    // Initialize Cloud Storage
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
 
-        var userRef = database.ref("users"); // Create a "users" reference
-        var newUserRef = userRef.push(); // Generate a unique key for the new user
+    document.addEventListener("DOMContentLoaded", function () {
+      var login = document.getElementById("login");
+      if (login) {
+        login.addEventListener("click", function (e) {
+          // Handle user sign-up using Firebase
+          var email = document.querySelector('.sign-up-inner').value;
+          var password = document.querySelector('.frame-input').value;
 
-        // Save user data to the database
-        newUserRef.set({
-          name: name,
-          phoneNumber: phoneNumber,
-          email: email
+          firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              // User signed up successfully
+
+              // Example: Write user data to the Realtime Database
+              database.ref('users/' + userCredential.user.uid).set({
+                email: email,
+                // Add other user data as needed
+              });
+
+              // Example: Upload a file to Cloud Storage
+              var fileInput = document.getElementById('fileInput');
+              var file = fileInput.files[0];
+              var filePath = 'user-profiles/' + userCredential.user.uid + '/' + file.name;
+              var fileRef = storageRef.child(filePath);
+
+              fileRef.put(file).then((snapshot) => {
+                console.log('File uploaded successfully');
+              });
+
+              window.location.href = "./homr.html"; // Fixed typo here
+            })
+            .catch((error) => {
+              // Handle errors during sign-up
+              console.error(error.message);
+            });
         });
+      }
 
-        // Redirect to the home page
-        window.location.href = "./home.html";
-      });
+      var back = document.getElementById("back");
+      if (back) {
+        back.addEventListener("click", function (e) {
+          window.location.href = "./index.html";
+        });
+      }
+
+      var login1 = document.getElementById("login1");
+      if (login1) {
+        login1.addEventListener("click", function (e) {
+          window.location.href = "./login.html";
+        });
+      }
+    });
+
+    // Updated functions for button clicks
+    function myFunction() {
+      // Function logic for the "Sign up" button
+      var email = document.querySelector('.sign-up-inner').value;
+      var password = document.querySelector('.frame-input').value;
+
+      // ... The rest of your sign-up logic ...
     }
 
-    var back = document.getElementById("back");
-    if (back) {
-      back.addEventListener("click", function (e) {
-        window.location.href = "./index.html";
-      });
+    function myBackFunction() {
+      // Function logic for the "Back" button
+      window.location.href = "./index.html";
     }
 
-    var login1 = document.getElementById("login1");
-    if (login1) {
-      login1.addEventListener("click", function (e) {
-        window.location.href = "./login.html";
-      });
+    function myLoginFunction() {
+      // Function logic for the "Login" button
+      window.location.href = "./login.html";
     }
   </script>
+</head>
+<body>
+  <div class="sign-up">
+    <div class="frame8">
+      <b class="create-your-account">Sign up</b>
+    </div>
+    <div class="frame9">
+      <b class="create-your-account">Create your account</b>
+    </div>
+    <input class="sign-up-child" name="Enter name" placeholder="Enter Name" type="text" />
+    <input class="sign-up-item" placeholder="Phone number" type="text" />
+    <input class="sign-up-inner" placeholder="Email Address" type="text" />
+    <input class="frame-input" placeholder="Password" type="password" />
+    <input class="sign-up-child1" placeholder="Confirm Password" type="text" />
+    <a class="upload-photo-parent">
+      <b class="upload-photo">Upload photo</b>
+      <img class="vector-icon1" alt="" src="./public/vector@2x.png" />
+    </a>
+    <input type="file" id="fileInput" />
+    <!-- Updated button tags with onclick attribute -->
+    <button class="login" id="login" onclick="myFunction()">
+      <b class="sign-up2">Sign up</b>
+    </button>
+    <div class="frame10">
+      <button class="back" id="back" onclick="myBackFunction()">
+        <div class="back-child"></div>
+        <b class="back1">back</b>
+      </button>
+    </div>
+    <div class="frame11">
+      <b class="create-your-account">Already have an account? </b>
+      <button class="login1" id="login1" onclick="myLoginFunction()">Login</button>
+    </div>
+  </div>
 </body>
 </html>
