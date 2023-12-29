@@ -1,74 +1,93 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
+<head>
+    <title>Simple Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-    <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="./login.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Open Sans:wght@600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto Sans:wght@700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Public Sans:wght@100;200;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
-    />
-  </head>
-  <body>
-    <div class="login3">
-      <b class="dont-have-an">Don’t have an account? </b>
-      <button class="signup" autofocus="{true}" id="signup">Signup</button>
-      <button class="login4" autofocus="{true}" id="login">
-        <b class="login5">Login</b>
-      </button>
-      <input class="password" placeholder="Password" type="text" />
+        .container {
+            width: 300px;
+            padding: 16px;
+            background-color: white;
+            margin: 0 auto;
+            margin-top: 100px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
 
-      <div class="forget-password">Forget Password?</div>
-      <input class="user-name" type="text" />
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
 
-      <b class="enter-your-credentials">Enter your credentials to Login</b>
-      <b class="welcome-back">Welcome Back</b>
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" id="uname" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" id="pwd" placeholder="Enter Password" name="psw" required>
+     
+        <button type="button" id="login" name="login">Login</button>
+        <button onclick="window.location.href='index.html'" id="goback">Go Back</button><br><br>
     </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    <script>
-      var signup = document.getElementById("signup");
-      if (signup) {
-        signup.addEventListener("click", function (e) {
-          window.location.href = "sign-up.html";
-        });
-      }
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
+          authDomain: "appauth-f9250.firebaseapp.com",
+          projectId: "appauth-f9250",
+          storageBucket: "appauth-f9250.appspot.com",
+          messagingSenderId: "652727774916",
+          appId: "1:652727774916:web:021f6820fd8e0c1c39e391"
+        };
       
-      var login = document.getElementById("login");
-      if (login) {
-        login.addEventListener("click", function (e) {
-          window.location.href = "homr.html";
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        login.addEventListener('click', () => {
+            var email = document.getElementById('uname').value;
+            var password = document.getElementById('pwd').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    // Redirect to the home.html page
+                    window.location.href = 'homr.html';
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert('Login failed. ' + errorMessage);
+                });
         });
-      }
-      </script>
-  </body>
+    </script>
+</body>
 </html>
