@@ -1,149 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <title>Simple Signup Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-  <!-- Add your stylesheet links -->
-  <link rel="stylesheet" href="./global.css" />
-  <link rel="stylesheet" href="./sign-up.css" />
+        .container {
+            width: 300px;
+            padding: 16px;
+            background-color: white;
+            margin: 0 auto;
+            margin-top: 100px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
 
-  <!-- Include Firebase JavaScript SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+        input[type=text], input[type=password], input[type=file] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
 
-  <style>
-    /* Add your additional styles here */
-  </style>
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
 
-  <script>
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
-      authDomain: "appauth-f9250.firebaseapp.com",
-      databaseURL: "https://appauth-f9250-default-rtdb.firebaseio.com",
-      projectId: "appauth-f9250",
-      storageBucket: "appauth-f9250.appspot.com",
-      messagingSenderId: "652727774916",
-      appId: "1:652727774916:web:021f6820fd8e0c1c39e391"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    // Initialize Realtime Database
-    const database = firebase.database();
-
-    // Initialize Cloud Storage
-    const storage = firebase.storage();
-    const storageRef = storage.ref();
-
-    document.addEventListener("DOMContentLoaded", function () {
-      var login = document.getElementById("login");
-      if (login) {
-        login.addEventListener("click", function (e) {
-          // Handle user sign-up using Firebase
-          var email = document.querySelector('.sign-up-inner').value;
-          var password = document.querySelector('.frame-input').value;
-
-          firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-              // User signed up successfully
-
-              // Example: Write user data to the Realtime Database
-              database.ref('users/' + userCredential.user.uid).set({
-                email: email,
-                // Add other user data as needed
-              });
-
-              // Example: Upload a file to Cloud Storage
-              var fileInput = document.getElementById('fileInput');
-              var file = fileInput.files[0];
-              var filePath = 'user-profiles/' + userCredential.user.uid + '/' + file.name;
-              var fileRef = storageRef.child(filePath);
-
-              fileRef.put(file).then((snapshot) => {
-                console.log('File uploaded successfully');
-              });
-
-              window.location.href = "./homr.html"; // Fixed typo here
-            })
-            .catch((error) => {
-              // Handle errors during sign-up
-              console.error(error.message);
-            });
-        });
-      }
-
-      var back = document.getElementById("back");
-      if (back) {
-        back.addEventListener("click", function (e) {
-          window.location.href = "./index.html";
-        });
-      }
-
-      var login1 = document.getElementById("login1");
-      if (login1) {
-        login1.addEventListener("click", function (e) {
-          window.location.href = "./login.html";
-        });
-      }
-    });
-
-    // Updated functions for button clicks
-    function myFunction() {
-      // Function logic for the "Sign up" button
-      var email = document.querySelector('.sign-up-inner').value;
-      var password = document.querySelector('.frame-input').value;
-
-      // ... The rest of your sign-up logic ...
-    }
-
-    function myBackFunction() {
-      // Function logic for the "Back" button
-      window.location.href = "./index.html";
-    }
-
-    function myLoginFunction() {
-      // Function logic for the "Login" button
-      window.location.href = "./login.html";
-    }
-  </script>
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-  <div class="sign-up">
-    <div class="frame8">
-      <b class="create-your-account">Sign up</b>
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" id="uname" placeholder="Enter Username" name="uname" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" id="pwd" placeholder="Enter Password" name="psw" required>
+
+        <label for="psw"><b>Photo</b></label>
+        <input type="file" id="photo" name="photo" required>
+
+        <button type="button" id="submit" name="submit">Signup</button>
+        <br><br>
+        <button onclick="window.location.href='index.html'" id="goback">Go Back</button><br><br>
     </div>
-    <div class="frame9">
-      <b class="create-your-account">Create your account</b>
-    </div>
-    <input class="sign-up-child" name="Enter name" placeholder="Enter Name" type="text" />
-    <input class="sign-up-item" placeholder="Phone number" type="text" />
-    <input class="sign-up-inner" placeholder="Email Address" type="text" />
-    <input class="frame-input" placeholder="Password" type="password" />
-    <input class="sign-up-child1" placeholder="Confirm Password" type="text" />
-    <a class="upload-photo-parent">
-      <b class="upload-photo">Upload photo</b>
-      <img class="vector-icon1" alt="" src="./public/vector@2x.png" />
-    </a>
-    <input type="file" id="fileInput" />
-    <!-- Updated button tags with onclick attribute -->
-    <button class="login" id="login" onclick="myFunction()">
-      <b class="sign-up2">Sign up</b>
-    </button>
-    <div class="frame10">
-      <button class="back" id="back" onclick="myBackFunction()">
-        <div class="back-child"></div>
-        <b class="back1">back</b>
-      </button>
-    </div>
-    <div class="frame11">
-      <b class="create-your-account">Already have an account? </b>
-      <button class="login1" id="login1" onclick="myLoginFunction()">Login</button>
-    </div>
-  </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDmu5pC_ezSxcunL9QpAYcjvMNqCde5SUQ",
+          authDomain: "appauth-f9250.firebaseapp.com",
+          projectId: "appauth-f9250",
+          storageBucket: "appauth-f9250.appspot.com",
+          messagingSenderId: "652727774916",
+          appId: "1:652727774916:web:021f6820fd8e0c1c39e391"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const storage = getStorage();
+
+       submit.addEventListener('click',(e) => {
+        var email = document.getElementById('uname').value;
+        var password = document.getElementById('pwd').value;
+        var photo = document.getElementById('photo').files[0];
+
+        createUserWithEmailAndPassword(auth, email, password)
+ .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    // ...
+    alert('user created successfully');
+
+    // Upload the photo to the Firebase storage
+    const storageRef = ref(storage, 'photos/' + photo.name);
+    uploadBytes(storageRef, photo).then((snapshot) => {
+      console.log('Uploaded a photo blob or file!');
+    });
+ })
+ .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    alert(errorMessage);
+ });
+
+       });
+
+    </script>
 </body>
 </html>
